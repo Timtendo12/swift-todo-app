@@ -2,6 +2,7 @@ import Fluent
 import Vapor
 
 final class Todo: Model, Content {
+    
     static let schema = "todos"
     
     @ID(key: .id)
@@ -9,11 +10,15 @@ final class Todo: Model, Content {
 
     @Field(key: "title")
     var title: String
-
+    
+    @Field(key: "done")
+    var done: Bool
+    
     init() { }
-
-    init(id: UUID? = nil, title: String) {
+    
+    init(id: UUID? = nil, title: String, done: Bool) {
         self.id = id
         self.title = title
+        self.done = done
     }
 }

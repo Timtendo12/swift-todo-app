@@ -1,0 +1,78 @@
+#extend("components/layout"):
+#export("content"):
+<div class="flex flex-row items-center w-full justify-around">
+    <div class="flex flex-col items-center">
+        <p>Sort types</p>
+        <div class="flex flex-row gap-1">
+            <button onclick="switchSort('desc')" class="bg-gray-300 rounded-md text-sm p-1">Desc</button>
+            <button onclick="switchSort('asc')" class="bg-gray-300 rounded-md text-sm p-1">Asc</button>
+            <button onclick="switchSort('status')" class="bg-gray-300 rounded-md text-sm p-1">Status</button>
+        </div>
+    </div>
+    <h1 class="text-2xl font-bold">ToDo list</h1>
+    <div class="w-28"></div>
+</div>
+<ul class="w-3/12">
+    <div class="flex flex-col w-full items-center justify-between text-center">
+    #for(todo in todos):
+        <div class="flex flex-row w-full justify-between items-center">
+        <p class="px-2 w-48 overflow-hidden text-ellipsis">#(todo.title)</p>
+        <a class="text-red-500 font-bold hover:underline px-2 text-center" href="/todos/remove/#(todo.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash font-bold" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+            </svg>
+        </a>
+        #if(!todo.done):
+        <a class="text-gray-500 font-bold hover:underline px-2 text-center" href="/todos/toggle/#(todo.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-off" viewBox="0 0 16 16">
+                <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
+            </svg>
+        </a>
+        #else:
+        <a class="text-green-500 font-bold hover:underline px-2 text-center" href="/todos/toggle/#(todo.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
+                <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+            </svg>
+        </a>
+    #endif
+    </div>
+    #endfor
+    </div>
+</ul>
+<div class="flex flex-row w-48 gap-4">
+    <input id="todo" name="todo" type="text" class="w-full rounded-lg" placeholder="New ToDo" />
+    <button id="submit" onclick="submit()" class="bg-gray-300 rounded-md px-2">Add</button>
+</div>
+<script>
+// check if the todo query param is set, if so remove it from the url
+if (window.location.search.includes("todo")) {
+    window.history.replaceState({}, document.title, "/" + window.location.pathname.split("/")[1]);
+}
+
+function submit() {
+    const todo = encodeURI(document.getElementById("todo").value);
+    if (todo.length > 0) {
+        window.location.href = "/todos/?todo=" + todo;
+    }
+}
+
+function switchSort(sort) {
+    switch (sort.toLowerCase()) {
+        case "desc":
+            window.location.href = "/todos/?sort=desc";
+            break;
+        case "asc":
+            window.location.href = "/todos/?sort=asc";
+            break;
+        case "status":
+            window.location.href = "/todos/?sort=status";
+            break;
+        default:
+            console.error("Unknown sort type");
+            break;
+    }
+}
+</script>
+#endexport
+#endextend

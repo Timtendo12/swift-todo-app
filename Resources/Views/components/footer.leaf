@@ -1,0 +1,8 @@
+<footer>
+    <div>
+        <p>© <span id="year"></span> ToDo App - Tim Slager</p>
+    </div>
+    <script>
+        document.getElementById("year").innerHTML = new Date().getFullYear().toString();
+    </script>
+</footer>

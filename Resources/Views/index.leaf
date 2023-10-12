@@ -1,12 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title>#(title)</title>
-</head>
-
-<body>
-  <h1>#(title)</h1>
-</body>
-</html>
+#extend("components/layout"):
+#export("content"):
+    <a href="/todos" class="text-2xl text-black hover:text-blue-500 hover:underline">Go to ToDo list!</a>
+#endexport
+#endextend
